@@ -47,7 +47,7 @@ public class Application {
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("dubbo-demo-api-provider"))
-            .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
+            .registry(new RegistryConfig("zookeeper://127.0.0.1:21810"))
             .protocol(new ProtocolConfig(CommonConstants.DUBBO, -1))
             .service(service)
             .start()
@@ -55,12 +55,19 @@ public class Application {
     }
 
     private static void startWithExport() throws InterruptedException {
+        // ServiceConfig：dubbo服务的配置信息
         ServiceConfig<DemoServiceImpl> service = new ServiceConfig<>();
+        // 服务暴露出去的接口
         service.setInterface(DemoService.class);
+        // 设置 暴露出去的接口的实现代码
         service.setRef(new DemoServiceImpl());
+        // application name 在服务框架里，定位都是你的服务名称
         service.setApplication(new ApplicationConfig("dubbo-demo-api-provider"));
-        service.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
-        service.setMetadataReportConfig(new MetadataReportConfig("zookeeper://127.0.0.1:2181"));
+        // zookeeper 注册中心地址
+        service.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:21810"));
+        // 元数据上报配置，dubo服务实例启动后，可能会将自己的元数据，上报到zk上去
+        service.setMetadataReportConfig(new MetadataReportConfig("zookeeper://127.0.0.1:21810"));
+        // 将服务暴露出去(网络监听的程序必须会启动）
         service.export();
 
         System.out.println("dubbo service started");

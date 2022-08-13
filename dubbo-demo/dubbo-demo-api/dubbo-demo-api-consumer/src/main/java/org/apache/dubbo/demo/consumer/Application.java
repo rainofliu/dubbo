@@ -27,6 +27,7 @@ import org.apache.dubbo.demo.DemoService;
 import org.apache.dubbo.rpc.service.GenericService;
 
 public class Application {
+
     public static void main(String[] args) {
         if (isClassic(args)) {
             runWithRefer();
@@ -46,7 +47,7 @@ public class Application {
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("dubbo-demo-api-consumer"))
-            .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
+            .registry(new RegistryConfig("zookeeper://127.0.0.1:21810"))
             .protocol(new ProtocolConfig(CommonConstants.DUBBO, -1))
             .reference(reference)
             .start();
@@ -65,8 +66,8 @@ public class Application {
     private static void runWithRefer() {
         ReferenceConfig<DemoService> reference = new ReferenceConfig<>();
         reference.setApplication(new ApplicationConfig("dubbo-demo-api-consumer"));
-        reference.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
-        reference.setMetadataReportConfig(new MetadataReportConfig("zookeeper://127.0.0.1:2181"));
+        reference.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:21810"));
+        reference.setMetadataReportConfig(new MetadataReportConfig("zookeeper://127.0.0.1:21810"));
         reference.setInterface(DemoService.class);
         DemoService service = reference.get();
         String message = service.sayHello("dubbo");

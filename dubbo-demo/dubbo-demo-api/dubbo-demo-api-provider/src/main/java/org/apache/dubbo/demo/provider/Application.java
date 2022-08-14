@@ -47,7 +47,7 @@ public class Application {
 
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
         bootstrap.application(new ApplicationConfig("dubbo-demo-api-provider"))
-            .registry(new RegistryConfig("zookeeper://127.0.0.1:21810"))
+            .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
             .protocol(new ProtocolConfig(CommonConstants.DUBBO, -1))
             .service(service)
             .start()
@@ -64,9 +64,9 @@ public class Application {
         // application name 在服务框架里，定位都是你的服务名称
         service.setApplication(new ApplicationConfig("dubbo-demo-api-provider"));
         // zookeeper 注册中心地址
-        service.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:21810"));
+        service.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
         // 元数据上报配置，dubo服务实例启动后，可能会将自己的元数据，上报到zk上去
-        service.setMetadataReportConfig(new MetadataReportConfig("zookeeper://127.0.0.1:21810"));
+        service.setMetadataReportConfig(new MetadataReportConfig("zookeeper://127.0.0.1:2181"));
         // 将服务暴露出去(网络监听的程序必须会启动）
         service.export();
 
